@@ -1,0 +1,23 @@
+//função Validadora
+function ValidaCPF(cpfEnviado) {
+    Object.defineProperty(this, 'cpfLimpo', {
+        get: function(){
+            return cpfEnviado.replace(/\D+/g, '');
+        }
+    });
+}   
+//primeiro digito
+const cpf = new ValidaCPF('462.665.558-08');
+const a1 = [10,9,8,7,6,5,4,3,2];
+const arrayDeCPF = String(cpf.cpfLimpo).split('').map(digito => Number(digito));
+const resultado = a1.map((valor, indice) => valor * arrayDeCPF[indice % arrayDeCPF.length]);
+const soma = resultado.reduce((total, num) => total + num, 0);
+const primeiroDigito = (11 - (soma % 11));
+//segundo digito
+const a2 = [11,10,9,8,7,6,5,4,3,2];
+const resultado2 = a2.map((valor, indice) => valor * arrayDeCPF[indice % arrayDeCPF.length]);
+const soma2 = resultado2.reduce((total, num) => total + num, 0);
+const segundoDigito = (11 - (soma2 % 11));
+//Impressão
+console.log(`Os números finais do CPF são: ${primeiroDigito}${segundoDigito}`);
+console.log(`E os CPF completo é: ${cpf.cpfLimpo}`)
